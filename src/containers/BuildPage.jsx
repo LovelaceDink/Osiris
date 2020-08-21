@@ -1,9 +1,10 @@
-import "../assets/css/buildPage.css";
+import "../assets/css/BuildPage.css";
 import React, { useState } from "react";
 import { Context } from "../context/MyProvider.js";
 import UiLibrary from "./UiLibrary.jsx";
-import LeftContainer from "./LeftContainer.jsx";
-import TopContainer from "./TopContainer.jsx";
+import HierarchyContainer from "./HierarchyContainer.jsx";
+import CodeDisplayContainer from "./CodeDisplayContainer.jsx";
+import StyleContainer from "./StyleContainer.jsx";
 
 const BuildPage = (props) => {
   const { globalState, dispatch } = React.useContext(Context);
@@ -15,16 +16,24 @@ const BuildPage = (props) => {
     });
   };
 
+
   return (
     <div className="buildPage">
       <div className="buildPageHeader">
         <h1>Page Builder</h1>
       </div>
-      <div className="left-container">
-        <LeftContainer />
+      <div className="buildPageTop">
+        <div className="codeDisplay">
+          <CodeDisplayContainer items={globalState.buildUiItems} />
+        </div>
+          <div className="hierarchy-container">
+            <HierarchyContainer items={globalState.buildUiItems}/>
+          </div>
       </div>
-      <div className="top-container">
-        <TopContainer items={globalState.buildUiItems} />
+      <div className='main-style'>
+      {globalState.showPopup === true && (
+						<StyleContainer  />
+          )}
       </div>
       <div className="bottom-container">
         <UiLibrary page="buildpage" buttonText="Add to Build" />

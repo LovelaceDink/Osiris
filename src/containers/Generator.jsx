@@ -21,7 +21,11 @@ function Generator(props) {
 		buttonText: '',
 		placeholder: '',
 		image: '',
-		s3file: ''
+		s3file: '',
+		fontColor: '',
+		fontWeight: '',
+		fontFamily: '',
+		fontStyle: '',
 	});
 
 	// uploading files
@@ -56,23 +60,43 @@ function Generator(props) {
 		try {
 			let image = await Storage.put(`${userData.fileName}.jpg`, userData.s3file);
 
-			console.log(image);
-
 			const { htmlTags, buttonText, placeholder, searchTags, description, fileName } = userData;
 
 			let reactCode;
+
 			switch (htmlTags) {
 				case 'button':
-					reactCode = `<${htmlTags}>${buttonText}</${htmlTags}>`;
+					reactCode = `<${htmlTags} style={}></${htmlTags}>`;
 					break;
 				case 'input':
 					reactCode = `<${htmlTags} placeholder=${placeholder}></${htmlTags}>`;
+					break;
+				case 'h1':
+					reactCode = `<${htmlTags} style={}></${htmlTags}>`;
+					break;
+				case 'h2':
+					reactCode = `<${htmlTags} style={}></${htmlTags}>`;
+					break;
+				case 'h3':
+					reactCode = `<${htmlTags} style={}></${htmlTags}>`;
+					break;
+				case 'p':
+					reactCode = `<${htmlTags} style={}></${htmlTags}>`;
+					break;
+				case 'ul':
+					reactCode = `<${htmlTags} style={}></${htmlTags}>`;
+					break;
+				case 'li':
+					reactCode = `<${htmlTags} style={}></${htmlTags}>`;
+					break;
+				case 'img':
+					reactCode = `<${htmlTags} alt='' src='' style={}/>`;
 					break;
 				default:
 					reactCode = `<${htmlTags}></${htmlTags}>`;
 					break;
 			}
-			// SQL Query individual_ui table: id(auto generated), organization_id, image, tags,react_code, vue_code, file_name, type, description
+
 			// send new data to database
 			pool
 				.query(
@@ -103,7 +127,9 @@ function Generator(props) {
 
 	return (
 		<div className="generator-container">
-			<h1 className="heading-generator">UI Generator</h1>
+			<div className="genHead">
+				<h1 className="heading-generator">UI Generator</h1>
+			</div>
 			<div className="top-container">
 				<input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={handleFileChange} />
 				<div className="image-container">
@@ -116,15 +142,14 @@ function Generator(props) {
 						<option value="div">Div</option>
 						<option value="button">Button</option>
 						<option value="input">Input</option>
+						<option value="h1">H1</option>
+						<option value="h2">H2</option>
+						<option value="h3">H3</option>
+						<option value="p">Paragraph</option>
+						<option value="ul">Navbar</option>
+						<option value="li">List Item</option>
+						<option value="img">Image</option>
 					</select>
-					{userData.htmlTags === 'button' && (
-						<input
-							name="buttonText"
-							placeholder="Button Text"
-							onChange={handleChange}
-							value={userData.buttonText}
-						/>
-					)}
 					{userData.htmlTags === 'input' && (
 						<input
 							name="placeholder"

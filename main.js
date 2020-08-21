@@ -20,8 +20,7 @@ let dev = false;
 if (
   process.env.NODE_ENV !== undefined &&
   process.env.NODE_ENV === "development"
-) {
-  dev = true;
+) {  dev = true;
 }
 
 // Temporary fix broken high-dpi scale factor on Windows (125% scaling)
@@ -36,7 +35,6 @@ ipcMain.on("choose_app_dir", async (event) => {
   const directory = await dialog.showOpenDialog(mainWindow, {
     properties: ["openDirectory"],
   });
-  console.log(directory);
   if (!directory) return;
   event.sender.send("app_dir_selected", directory.filePaths[0]);
 });

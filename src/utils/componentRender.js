@@ -1,4 +1,4 @@
-const componentRender = (componentsArr, selectedState, title) => {
+const componentRender = (componentsStr, selectedState, title) => {
   switch (selectedState) {
     case "classState":
       return `
@@ -11,8 +11,7 @@ const componentRender = (componentsArr, selectedState, title) => {
         }
         render() {
           return (
-            <div>
-            ${componentsArr.map((child) => child.react_code).join("\n")}
+            <div>${componentsStr}
             </div>
           )
           }
@@ -24,12 +23,13 @@ const componentRender = (componentsArr, selectedState, title) => {
       return `
       import React, { useState } from 'react';
 
-      const ${title} = props => (
+      const ${title} = props => {
         const [state, setState] = useState('')
-          <div>
-          ${componentsArr.map((child) => child.react_code).join("\n")}
+        return (
+          <div>${componentsStr}
           </div>
-          );
+        )
+      };
 
           export default ${title};
           `;
@@ -37,8 +37,7 @@ const componentRender = (componentsArr, selectedState, title) => {
       return `import React from 'react';
 
       const ${title} = props => (
-          <div>
-          ${componentsArr.map((child) => child.react_code).join("\n")}
+          <div>${componentsStr}
           </div>
           );
 

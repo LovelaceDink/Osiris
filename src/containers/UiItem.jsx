@@ -2,23 +2,27 @@ import "../assets/css/UiItem.css";
 import React from "react";
 import { Context } from "../context/MyProvider.js";
 import { withRouter } from "react-router-dom";
+const cloneDeep = require("lodash.clonedeep");
 
 const UiItem = (props) => {
   const { globalState, dispatch } = React.useContext(Context);
 
   const onClick = (e) => {
-    console.log('onClick add uiItem', props.page);
     if (props.page === "uilibrary") {
       dispatch({
         type: "uiLibrary_details",
-        payload: e.target.id,
+        payload: cloneDeep(props.item),
       });
       props.history.push("/detailPage");
     } else if (props.page === "buildpage") {
-      dispatch({
-        type: "updateBuildUiItems",
-        payload: e.target.id,
-      });
+      if (props.type === "div") {
+        dispatch({
+          type: "updateBuildUiItems",
+          payload: cloneDeep(props.item),
+        });
+      } else {
+        dispatch({ type: "showPopup", payload: cloneDeep(props.item) });
+      }
     }
   };
 
